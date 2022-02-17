@@ -2,6 +2,7 @@ process.env.NODE_ENV = 'development';
 
 const Vite = require('vite');
 const ChildProcess = require('child_process');
+const copySrcMain = require('./copyUtils').copySrcMain;
 const Path = require('path');
 const Chalk = require('chalk');
 const Chokidar = require('chokidar');
@@ -48,6 +49,15 @@ async function startTSC(watch = false) {
       console.log(Chalk.redBright(`TSC execution failed with code ${code}`) );
     }
   }
+}
+
+async function buildMain() {
+  /**
+   * Copies non typescript files form src/main to build/main
+   * Then starts typescipt compilation to comile the ts content to src/main
+   */
+  await copySrcMain();
+  await startTSC();
 }
 
 async function startRenderer() {
@@ -121,8 +131,8 @@ async function start() {
   */
     divider = Chalk.blueBright('==============================================================');
     console.log( divider );
-    console.log( Chalk.blueBright('Starting Typescript Compiler...' ) );
-    await startTSC();
+    console.log( Chalk.blueBright("Starting Main's Build Process..." ) );
+    await buildMain();
 
     console.log( Chalk.blueBright(divider) );
     console.log( Chalk.blueBright('Starting Vite Dev Server...') );
@@ -140,8 +150,8 @@ async function start() {
     Chokidar.watch(Path.join(__dirname, '..', 'src', 'main')).on('change', async () => {
       console.log( Chalk.blueBright(divider) );
       console.log( Chalk.blueBright( "Electron Source File Changed!") );
-      console.log( Chalk.blueBright('Rerunning TypeScript Compiler...') );
-      await startTSC();
+      console.log( Chalk.blueBright("Rerunning Main's Build Process...") );
+      await buildMain();
       console.log( Chalk.blueBright('Restarting Electron ...'))
       restartElectron();
       console.log( Chalk.blueBright(divider) );
