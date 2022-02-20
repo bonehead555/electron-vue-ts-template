@@ -25,3 +25,7 @@ dist-ssr
 
 # Build Outputs
 build
+
+# Renderer's Copy of the Shared Files
+src/renderer/shared/**
+!.gitkeep

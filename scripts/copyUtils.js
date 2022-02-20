@@ -77,6 +77,17 @@ async function copySrcMain() {
   }
 }
 
+async function copySrcShared() {
+  /**
+  * Copy "src\main\shared\**\*.*" to "src\renderer\shared"
+  * Note: Assumes this is being run with the current working dirctory set to the project folder.
+  */
+  const error = await copyfilesEx("src/main/shared/**/*.*", "src/renderer/shared");
+  if (error) {
+    console.error(error)
+  }
+}
+
 if (typeof require !== 'undefined' && require.main === module) {
   ( async () => {
     await copySrcMain();
@@ -84,3 +95,4 @@ if (typeof require !== 'undefined' && require.main === module) {
 }
 
 exports.copySrcMain = copySrcMain;
+exports.copySrcShared = copySrcShared;

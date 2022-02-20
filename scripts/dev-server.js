@@ -2,7 +2,7 @@ process.env.NODE_ENV = 'development';
 
 const Vite = require('vite');
 const ChildProcess = require('child_process');
-const copySrcMain = require('./copyUtils').copySrcMain;
+const copyUtils = require('./copyUtils');
 const Path = require('path');
 const Chalk = require('chalk');
 const Chokidar = require('chokidar');
@@ -53,10 +53,12 @@ async function startTSC(watch = false) {
 
 async function buildMain() {
   /**
+   * Copies shared files to the renderer
    * Copies non typescript files form src/main to build/main
-   * Then starts typescipt compilation to comile the ts content to src/main
+   * Then starts typescript compilation to compile the ts content to src/main
    */
-  await copySrcMain();
+  await copyUtils.copySrcShared();
+  await copyUtils.copySrcMain();
   await startTSC();
 }
 
