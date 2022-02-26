@@ -23,10 +23,12 @@ function createWindow() {
     : `http://localhost:${process.argv[2]}`;
   mainWindow.loadURL(appURL);
 
+/*
   // Automatically open Chrome's DevTools in development mode.
   if (!app.isPackaged) {
     mainWindow.webContents.openDevTools({mode : "undocked"});
   }
+*/
 }
 
 
