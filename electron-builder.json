@@ -1,0 +1,42 @@
+{
+    "appId": "com.electron.app",
+    "directories": {
+        "output": "dist"
+    },
+    "nsis": {
+        "oneClick": false,
+        "perMachine": false,
+        "allowToChangeInstallationDirectory": true,
+        "shortcutName": "Electron App"
+    },
+    "win": {
+        "target": "nsis"
+    },
+    "linux":  {
+        "target": ["snap"]
+    },
+    "files": [
+        "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
+        "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
+        "!**/node_modules/*.d.ts",
+        "!**/node_modules/.bin",
+        "!.editorconfig",
+        "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}",
+        "!build",
+        "!dist",
+        "!scripts",
+        "!src",
+        "!.gitignore",
+        "!electron-builder.json",
+        "!README.md",
+        "!tsconfig.json",
+        "!tscongig.node.json",
+        "!tsconfig.vite.json",
+        "!vite.config.json",
+        {
+          "from": "build",
+          "to": "./",
+          "filter": ["**/*"]
+        }
+    ]
+}

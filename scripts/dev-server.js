@@ -2,7 +2,7 @@ process.env.NODE_ENV = 'development';
 
 const Vite = require('vite');
 const ChildProcess = require('child_process');
-const copyUtils = require('./copyUtils');
+const buildMain = require('./buildMain').buildMain;
 const Path = require('path');
 const Chalk = require('chalk');
 const Chokidar = require('chokidar');
@@ -11,56 +11,6 @@ const Electron = require('electron');
 const cwd = process.cwd();
 let electronProcess = null;
 let rendererPort = 0;
-
-function sychStartTSC() {
-  let result = ChildProcess.execSync(`tsc`, { stdio: 'inherit'});
-  if (result) {
-    console.log( result.toString() );
-  }
-}
-
-async function startTSC(watch = false) {
-  /**
-  * Starts a child process to run the typescript compiler.
-  * Childs stdout and stderr are forwarded to console.log
-  * If not in watch mode, waits and returns only after compilation completes.
-  *
-  * @param watch - True to start tsc in watch mode
-  */
-
-  const cmd = watch ? 'tsc -w' : 'tsc';
-  const tscProcess = ChildProcess.exec(cmd);
-
-  tscProcess.stdout.on('data', data => {
-    console.log( data.toString() );
-  });
-
-  tscProcess.stderr.on('data', data => {
-    console.log( data.toString() );
-  });
-
-  if (!watch) {
-    const code = await new Promise( (resolve) => {
-      tscProcess.on('close', (code) => {
-        resolve(code);
-      });
-    });
-    if (code !== 0) {
-      console.log(Chalk.redBright(`TSC execution failed with code ${code}`) );
-    }
-  }
-}
-
-async function buildMain() {
-  /**
-   * Copies shared files to the renderer
-   * Copies non typescript files form src/main to build/main
-   * Then starts typescript compilation to compile the ts content to src/main
-   */
-  await copyUtils.copySrcShared();
-  await copyUtils.copySrcMain();
-  await startTSC();
-}
 
 async function startRenderer() {
   /**
