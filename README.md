@@ -4,7 +4,7 @@ A starter template that's bundled together with **Electron 16.x**, **VueJS 3.x**
 
 ## About
 
-This project was inspired by [electron-vue-template](https://github.com/iamshaunjp/git-playlist) which per its author's words "got inspired by [electron-vue](https://github.com/SimulatedGREG/electron-vue)"
+This project was inspired by [electron-vue-template](https://github.com/Deluze/electron-vue-template) which per its author's words "got inspired by [electron-vue](https://github.com/SimulatedGREG/electron-vue)"
 
 For developement mode, this template uses [ViteJS](https://vitejs.dev) for the server providing HMR (Hot Reload) for the Electron renderer process components. Further, it implements its own watcher for the Electron  main process content and restarts Electron proper when any of the main process conponents change.
 
