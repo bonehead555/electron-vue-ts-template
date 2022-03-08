@@ -46,11 +46,11 @@ function startElectron() {
   electronProcess = ChildProcess.spawn(Electron, args);
 
   electronProcess.stdout.on('data', data => {
-      console.log(Chalk.blueBright(`[Electron] `) + Chalk.white(data.toString()));
+    process.stdout.write(Chalk.blueBright(`[Electron] `) + Chalk.white(data.toString()));
   });
 
   electronProcess.stderr.on('data', data => {
-      console.log(Chalk.redBright(`[Electron] `) + Chalk.white(data.toString()));
+    process.stdout.write(Chalk.redBright(`[Electron] `) + Chalk.white(data.toString()));
   });
 
   electronProcess.on('exit', (code) => {
