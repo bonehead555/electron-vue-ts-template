@@ -20,11 +20,11 @@ async function startTSC(productionBuild = false, watch = false) {
   const tscProcess = ChildProcess.exec(cmd);
 
   tscProcess.stdout.on('data', data => {
-    console.log( data.toString() );
+    process.stdout.write( data.toString() );
   });
 
   tscProcess.stderr.on('data', data => {
-    console.log( data.toString() );
+    process.stderr.write( data.toString() );
   });
 
   if (!watch) {
