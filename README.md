@@ -79,12 +79,14 @@ Optional electron builder configuration options can be found in the [Electron Bu
 | **build/renderer** | Houses compiled outputs and other assets required for serving content for the Electron renderer process. |
 | **dist** | Houses the content that is created when a distributable Electron application is requested. Created as needed by electron builder tooling. |
 | *node_modules* |Node package folders.  Managed as needed by NPM. |
-| **scripts** | Houses script (*.js) files used to help automate the development and build processes.
-| **src** | Houses all of the source files required for the electron application. |
-| **src/main** | Houses all of the source files required to build the electron main process.  Extend this folder structure as you require. |
-| **src/main/shared** | Houses all of the source files that need to be available from both the Electron main and Electron renderer processes.  Note: Content in this folder will automatically be made available to the src/renderer/shared folder structure. |
-| **src/renderer** | Houses all of the source files required to build the Electron renderer processes.  Additional folders exist beneath this location but (except for shared) these are the default folders created by Vite.  Modify the content in these folders as you require. |
-|**src/render/shared** | Houses a copy of src/main/shared so that it can be accessed by the render. Do not modify the content in this folder. |
+| **scripts** | Houses script files used to help automate the development and build processes. <ul><li>buildMain.js – Manages build of Electron Main Process assets</li><li>buildRenderer.js – Manages production build of Electron Renderer Process assets</li><li>copyUtils.js – Utility functions to perform file copies.</li><li>dev-server.js – Manages development build and app execution.</li></ul> |
+| **src** | Houses all of the assets required for the electron application. |
+| **src/main** | Houses all of the assets required to build the electron main process.  <ul><li>main.ts - Basic code for Electron Main process</li><li>preload.ts - Code to expose basic IPC from render to main process.</li></ul>Extend this folder structure as you require. |
+| **src/main/ipc** | Houses handlers for some simple/basic renderer to main process IPC functions. <ul> <li>rendererIPC.ts – Provides and registers sone simple IPC handlers</li></ul> Extend this folder structure as you require.| 
+| **src/main/shared** | Houses all of the assets that need to be available from both the Electron main and Electron renderer processes.  Note: Content in this folder will automatically be made available to the src/renderer/shared folder structure. |
+| **src/renderer** | Houses all of the assets required to build the Electron renderer processes.  Additional folders exist beneath this location but (except for shared) these are the default folders created by Vite.  Modify the content in these folders as you require. <br/> Extend this folder structure as you require.|
+| **src/renderer/ipc** | Houses code to expose some simple/basic renderer to main IPC functions. <ul><li>rendererIPC.ts – Provides and registers sone simple IPC handlers</li><li>preload.d.ts – TypeScript type file providing type information for IPC methods exposed through src/main/preload.ts</li><li>consoleMain.ts – Wrapper methods that simplify access the main console IPC functions exposed through preload.</li></ul>Extend this folder structure as you require. |
+|**src/render/shared** | Houses a copy of src/main/shared so that it can be accessed by the render. <br/>Do not modify the content in this folder. |
 
 End of README.md
 
