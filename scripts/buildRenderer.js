@@ -5,18 +5,18 @@ const Chalk = require('chalk');
 async function checkRenderer() {
   /**
   * Starts a child process to run vue-tsc to check for any errors.
-  * Childs stdout and stderr are forwarded to console.log
+  * Childs stdout/stderr are forwarded to process.stdout/stderr
   */
 
   const cmd = 'vue-tsc --noEmit --project tsconfig.vite.json';
   const childProcess = ChildProcess.exec(cmd);
 
   childProcess.stdout.on('data', data => {
-    console.log( data.toString() );
+    process.stdout.write( data.toString() );
   });
 
   childProcess.stderr.on('data', data => {
-    console.log( data.toString() );
+    process.stderr.write( data.toString() );
   });
 
   const code = await new Promise( (resolve) => {
