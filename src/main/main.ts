@@ -1,6 +1,7 @@
 // Module to control the application lifecycle and the native browser window.
 import { app, BrowserWindow, protocol } from "electron";
 import path from "path";
+import { registerRendererIPC } from "./ipc/rendererIPC";
 
 // Create the native browser window.
 function createWindow() {
@@ -44,6 +45,7 @@ app.whenReady().then(() => {
       createWindow();
     }
   });
+  registerRendererIPC();
 });
 
 // Quit when all windows are closed, except on macOS.

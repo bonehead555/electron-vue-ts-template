@@ -1,9 +1,19 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { mainConsole } from '../ipc/consoleMain';
 
 defineProps<{ msg: string }>()
 
 const count = ref(0)
+
+function incrementCount() {
+  count.value++;
+  if (count.value % 2)
+    mainConsole.log(`Updated Count to ${count.value}`);
+  else
+    mainConsole.error(`Updated Count to ${count.value}`);
+}
+
 </script>
 
 <template>
@@ -26,7 +36,7 @@ const count = ref(0)
     <a href="https://v3.vuejs.org/" target="_blank">Vue 3 Docs</a>
   </p>
 
-  <button type="button" @click="count++">count is: {{ count }}</button>
+  <button type="button" @click="incrementCount">count is: {{ count }}</button>
   <p>
     Edit
     <code>components/HelloWorld.vue</code> to test hot module replacement.
