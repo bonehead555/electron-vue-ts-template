@@ -2,18 +2,17 @@ const ChildProcess = require('child_process');
 const copyUtils = require('./copyUtils');
 const Chalk = require('chalk');
 
+/**
+* Starts a child process to run the typescript compiler.
+* Child's stdout/stderr are forwarded to process.stdout/stderr
+* If not a productionBuild, activates the tsc inlineSourceMap and build options
+*    i.e., to provide for source debugging
+* If a productionBuild, activates the tsc clean option
+* If not in watch mode, waits and returns only after compilation completes.
+*
+* @param watch - True to start tsc in watch mode
+*/
 async function startTSC(productionBuild = false, watch = false) {
-  /**
-  * Starts a child process to run the typescript compiler.
-  * Childs stdout and stderr are forwarded to console.log
-  * If not a productionBuild, activates the tsc inlineSourceMap and build options
-  *    i.e., to provide for source debugging
-  * If a productionBuild, activates the tsc clean option
-  * If not in watch mode, waits and returns only after compilation completes.
-  *
-  * @param watch - True to start tsc in watch mode
-  */
-
   const watchOption = !productionBuild && watch ? ' --watch' : '';
   const inlineOption = productionBuild ? '' : ' --inlineSourceMap';
   const cmd = 'tsc' + watchOption + inlineOption;
@@ -39,18 +38,25 @@ async function startTSC(productionBuild = false, watch = false) {
   }
 }
 
+/**
+ * Copies shared files to the renderer
+ * Copies non-TypeScript files form src/main to build/main
+ * Then starts TypeScript compilation to compile the ts content to src/main
+ * @param productionBuild True is compile is for a production build, 
+ * False (default) if compile s for a development build.
+ */
 async function buildMain(productionBuild = false) {
-  /**
-   * Copies shared files to the renderer
-   * Copies non typescript files form src/main to build/main
-   * Then starts typescript compilation to compile the ts content to src/main
-   */
+
   await copyUtils.copySrcShared();
   await copyUtils.copySrcMain();
   await startTSC(productionBuild);
 }
 
-// default behavior when run directly within node.js is to perform a production build.
+/**
+ * This code segment provides the behavior of this module when the module is 
+ * run directly within node.js.
+ * When run this way the code performs a production build.
+*/
 if (typeof require !== 'undefined' && require.main === module) {
   console.log(Chalk.blueBright('=============================================================='));
   console.log( Chalk.blueBright("Building Main content..." ) );
@@ -59,4 +65,5 @@ if (typeof require !== 'undefined' && require.main === module) {
   }) ();
 }
 
+/** Exported buildMain function */
 exports.buildMain = buildMain;
