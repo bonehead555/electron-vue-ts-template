@@ -1,3 +1,12 @@
+/**
+ * @file APIs for building and copying the Electron Main assets
+ * @author
+ *
+ * This file provides APIs for building / copying assets needed by the Electron Main process 
+ * to the build/main folder.
+ * Also for transferring shared assets from src/main/shared to the src/renderer/shared.
+ */
+
 const ChildProcess = require('child_process');
 const copyUtils = require('./copyUtils');
 const Chalk = require('chalk');
@@ -46,7 +55,6 @@ async function startTSC(productionBuild = false, watch = false) {
  * False (default) if compile s for a development build.
  */
 async function buildMain(productionBuild = false) {
-
   await copyUtils.copySrcShared();
   await copyUtils.copySrcMain();
   await startTSC(productionBuild);
@@ -54,7 +62,7 @@ async function buildMain(productionBuild = false) {
 
 /**
  * This code segment provides the behavior of this module when the module is 
- * run directly within node.js.
+ * run directly from node.js.
  * When run this way the code performs a production build.
 */
 if (typeof require !== 'undefined' && require.main === module) {

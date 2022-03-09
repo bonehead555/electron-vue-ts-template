@@ -1,3 +1,9 @@
+/**
+ * @file APIs for managing the build and execution of a development version of the app.
+ * @author bonehead555
+ */
+
+/** Sets the NODE_ENV environment variable to indicate the Electron is running in development mode. */
 process.env.NODE_ENV = 'development';
 
 const Vite = require('vite');
@@ -12,12 +18,12 @@ const cwd = process.cwd();
 let electronProcess = null;
 let rendererPort = 0;
 
+/**
+* Starts a developent mode Vite server.
+*
+* @returns  Vite Dev Server Instance
+*/
 async function startRenderer() {
-  /**
-  * Starts a developent mode Vite server.
-  *
-  * @returns  Vite Dev Server Instance
-  */
   const config = Path.join(cwd, 'vite.config.ts');
   const server = await Vite.createServer({
       ...config,
@@ -26,13 +32,13 @@ async function startRenderer() {
   return server.listen();
 }
 
+/**
+* Starts an Electron child process, i.e., if one is not already running.
+* Electron's stdout and stderr are forwarded to console.log
+* On normal Electron exit, this script process exits
+*    along with all of its child processes
+*/
 function startElectron() {
-  /**
-  * Starts an Electron child process, i.e., if one is not already running.
-  * Electron's stdout and stderr are forwarded to console.log
-  * On normal Electron exit, this script process exits
-  *    along with all of its child processes
-  */
   if (electronProcess) { // single instance lock
       return;
   }
@@ -61,10 +67,10 @@ function startElectron() {
   });
 }
 
+/**
+* Restarts Electron child process
+*/
 function restartElectron() {
-  /**
-  * Restarts Electron child process
-  */
   if (electronProcess) {
       electronProcess.kill();
       electronProcess = null;
@@ -72,15 +78,15 @@ function restartElectron() {
   startElectron();
 }
 
+/**
+* Runs the typescript compilation process
+* Intilates the Vite Dev server
+* Initiates the Electron child process
+* Initiates watcher for typescript source changes in main and when needed ... 
+*     Reruns the typescript compilation process
+*     Restarts the Electron child process
+*/
 async function start() {
-  /**
-  * Runs the typescript compilation process
-  * Intilates the Vite Dev server
-  * Initiates the Electron child process
-  * Initiates watch for typescript source changes in main and common and 
-  *     Reruns the typescript compilation process
-  *     Restarts the Electron child process
-  */
     divider = Chalk.blueBright('==============================================================');
     console.log( divider );
     console.log( Chalk.blueBright("Starting Main's Build Process..." ) );

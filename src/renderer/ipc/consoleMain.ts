@@ -1,7 +1,7 @@
 /**
  * @file APIs for accessing methods and data exposed by the Electron Main Process.
  *
- * This file provides friedly API wrappers for IPC APIs exposed by 
+ * This file provides friendly API wrappers for IPC APIs exposed by 
  * the Electron Main Process.
  */
 
